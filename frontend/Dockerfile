@@ -2,10 +2,10 @@
 FROM node:24-alpine AS build
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
-RUN npm install -g @angular/cli
+# npm ci installs the lockfile's @angular/cli; a global install would pull whatever is latest.
+RUN npm ci
 COPY . .
-RUN ng build --configuration=production
+RUN npm run build:prod
 
 # Host
 FROM nginx:latest
